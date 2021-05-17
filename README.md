@@ -1,4 +1,4 @@
-# <h1 style="text-align: center;"> Blog APP</h1>
+# <h1 style="text-align: center !important;"> Blog APP</h1>
 ## Instalar Express:
 `npm install --save express`
 
