@@ -7,7 +7,18 @@ const app = express()
 
 // Configurações
 
+// configurando body-parser
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json()) // em caso de erro, ver link salvo no chrome
+
+// configurando handlebars
+app.engine('handlebars', handlebars({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
+
 // Rotas
+app.get('/', (req, res) => {
+    res.send('Blog-APP')
+})
 
 // Outros
 const PORT = 5000
