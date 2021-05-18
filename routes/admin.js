@@ -16,7 +16,7 @@ router.get('/categorias', (req, res) => {
 })
 
 router.get('/categorias/add', (req, res) => {
-    res.render("admin/addcategorias")
+    res.render("admin/addcategoria")
 })
 
 module.exports = router // exportando router

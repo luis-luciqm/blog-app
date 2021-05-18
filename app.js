@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json()) // em caso de erro, ver link salvo no chrome
 
 // configurando handlebars
+app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', handlebars({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 
