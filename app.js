@@ -3,7 +3,7 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const admin = require('./routes/admin') // importando arquivo de rotas de maneira correta
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const app = express()
 const path = require('path') // importando para configurar pasta public, path serve para manipular pastas
 
@@ -18,6 +18,14 @@ app.engine('handlebars', handlebars({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 
 // Mongoose
+// conectando ao mongoose. ps: mongo deve estar ligado
+mongoose.Promise = global.Promise
+mongoose.connect("mongodb://localhost/blogapp").then(() => {
+    console.log("\nConexão com mongoose realizada com sucesso!\n")
+}).catch((err) => {
+    console.log("\nErro ao conectar ao mongoose! Erro: " + err)
+})
+
 
 // Public
 app.use(express.static(path.join(__dirname, "public")))
@@ -34,5 +42,5 @@ app.use('/admin', admin)
 // Outros
 const PORT = 5000
 app.listen(PORT, (req, res) => {
-    console.log("Server is running port " + PORT)
+    console.log("\nServer is running port " + PORT)
 })
