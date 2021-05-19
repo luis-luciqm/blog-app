@@ -18,7 +18,6 @@ app.use(session({ // configurando session
 }))
 app.use(flash()) // configurando flash
 
-
 // Middlewares
 app.use((req, res, next) => {
     // criando variaveis globais com locals

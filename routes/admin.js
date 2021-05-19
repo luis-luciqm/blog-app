@@ -21,22 +21,39 @@ router.get('/categorias/add', (req, res) => {
     res.render("admin/addcategoria")
 })
 
-router.post('/categorias/nova', (req, res) => { // essa é a rota que irá salvar os dados no banco, collections
-    
-    console.log(req.body.nome)
-    console.log(req.body.slug)
-    
-    const novaCategoria = {
-        nome: req.body.nome, // pegando dados do formulario
-        slug: req.body.slug
+router.post('/categorias/nova', (req, res) => { // essa é a rota que irá salvar os dados no banco, collections    
+    // validações 
+    var erros = []
+
+    if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
+        erros.push({texto: "Nome Inválido"})
     }
 
-    new Categoria(novaCategoria).save().then(() => { // salvando no banco de dados
-        console.log("Categoria salva com sucesso")
-    }).catch((err) => {
-        console.log("Erro ao salvar categoria: " + err)
-    })
+    if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
+        erros.push({texto: "Slug Inválido"})
+    }
 
+    if(req.body.nome.length < 2){
+        erros.push({texto: "Nome pequeno"})
+    }
+
+    if(erros.length > 0){
+        res.render("admin/addcategoria", {erros: erros})
+    }else{
+        // se não existe nenhum erro no formulário
+        const novaCategoria = {
+            nome: req.body.nome, // pegando dados do formulario
+            slug: req.body.slug
+        }
+    
+        new Categoria(novaCategoria).save().then(() => { // salvando no banco de dados
+            req.flash("success_msg", "Categoria salva com sucesso!")
+            res.redirect("/admin/categorias") // se o cadastro der certo, irá redirecionar para a pagina de categorias
+        }).catch((err) => {
+            req.flash("error_msg", "Houve um erro ao salvar a categoria")
+            res.redirect("/admin")
+        })
+    }
 })
 
 module.exports = router // exportando router
