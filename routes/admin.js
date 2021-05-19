@@ -21,7 +21,11 @@ router.get('/categorias/add', (req, res) => {
     res.render("admin/addcategoria")
 })
 
-router.post('/categorias/nova', (req, res) => {
+router.post('/categorias/nova', (req, res) => { // essa é a rota que irá salvar os dados no banco, collections
+    
+    console.log(req.body.nome)
+    console.log(req.body.slug)
+    
     const novaCategoria = {
         nome: req.body.nome, // pegando dados do formulario
         slug: req.body.slug

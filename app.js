@@ -6,10 +6,29 @@ const admin = require('./routes/admin') // importando arquivo de rotas de maneir
 const mongoose = require('mongoose')
 const app = express()
 const path = require('path') // importando para configurar pasta public, path serve para manipular pastas
+const session = require('express-session') // importando pacote session
+const flash = require('connect-flash') // importando pacote connect flash
 
 // Configurações
+
+app.use(session({ // configurando session
+    secret: "blog-appNode", // chave secreta que gera a session
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(flash()) // configurando flash
+
+
+// Middlewares
+app.use((req, res, next) => {
+    // criando variaveis globais com locals
+    res.locals.success_msg = req.flash("success_msg")
+    res.locals.error_msg = req.flash("error_msg")
+    next() // sempre tem que ter o next() na middlewares
+})
+
 // configurando body-parser
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true})) // tudo com app.use() é uma Middleware
 app.use(bodyParser.json()) // em caso de erro, ver link salvo no chrome
 
 // configurando handlebars
@@ -38,6 +57,10 @@ app.use('/admin', admin)
 // Ex: localhost:prefixo/rota
 // localhost:admin/posts
 
+app.use((req, res, next) => {
+    console.log("Olá, eu sou um Middlewares")
+    next()
+})
 
 // Outros
 const PORT = 5000
