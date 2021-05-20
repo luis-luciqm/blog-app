@@ -14,7 +14,12 @@ router.get('/posts', (req, res) => {
 })
 
 router.get('/categorias', (req, res) => {
-    res.render("admin/categorias")
+    Categoria.find().sort({date: 'desc'}).lean().then((categorias) => { // pegando dados das collections. todo model no mongoose tem uma função find(), vai listar todas as categorias que existem
+        res.render('admin/categorias', {categorias: categorias})
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro ao listar categorias!" + err)
+        res.redirect("/admin")
+    })
 })
 
 router.get('/categorias/add', (req, res) => {
