@@ -61,4 +61,33 @@ router.post('/categorias/nova', (req, res) => { // essa é a rota que irá salva
     }
 })
 
+router.get('/categorias/edit/:id', (req, res) => {
+    Categoria.findOne({_id:req.params.id}).then((categoria) => { // where. busque um dado que tenho o id igual o id do parametro
+        res.render("admin/editcategorias", {categoria: categoria})
+    }).catch((err) => {
+        req.flash("error_msg", "Está categoria não existe")
+        res.redirect("/admin/categorias")
+    })
+})
+
+router.post('/categorias/edit', (req, res) => {
+    Categoria.findOne({_id: req.body.id}).then((categoria) => {
+
+    categoria.nome = req.body.nome // pegando novos dados do formulario e salvando
+    categoria.slug = re.body.slug
+
+    categoria.save().then(() => {
+        req.flash("success_msg", "Editado com sucesso!")
+        res.redirect("/admin/categorias")
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro ao editar categoria: " + err)
+        res.redirect("/admin/categorias")
+    })
+
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro ao editar categoria: " + err)
+        res.redirect("/admin/categorias")
+    })
+})
+
 module.exports = router // exportando router
