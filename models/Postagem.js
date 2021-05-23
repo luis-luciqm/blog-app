@@ -30,4 +30,4 @@ const Postagem = new Schema({
 })
 
 mongoose.model("postagens", Postagem)
-// "postagens é a collection que será criada". Postagem é o meu model
+// "postagens" é a collection que será criada. Postagem é o meu model

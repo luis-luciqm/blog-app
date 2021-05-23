@@ -90,14 +90,22 @@ router.post('/categorias/edit', (req, res) => {
     })
 })
 
-router.post("/categorias/deletar", (req, res) => {
-    Categoria.remove({_id: req.body.id}).then(() => {
+router.post('/categorias/deletar', (req, res) => {
+    Categoria.remove({_id: req.body.id}).then(() => { // pega o id do corpo do html, o id da categoria
         req.flash("success_msg", "Categoria Deletada com sucesso")
         res.redirect("/admin/categorias")
     }).catch((err) => {
         req.flash("error_msg", "Erro ao deletar categoria: " + err)
         res.redirect("/admin/categorias")
     })
+})
+
+router.get('/postagens', (req, res) => {
+    res.render("admin/postagens")
+})
+
+router.get('/postagens/add', (req, res) => {
+    res.render("admin/addpostagem")
 })
 
 module.exports = router // exportando router
